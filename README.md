@@ -112,6 +112,9 @@ The operator-sdk will generate a CRD this will extend the k8s API and allow user
 #### Add Print Task to Operator Role
 The operator framework implements Ansible roles. By default it will create a single role but you can certainly have many roles. Roles are mapped to the API endpoint of the CRD in the watches.yaml file. In this case we will be adding a print statement that will print some debug when a parameter toggle_message is set to true to the role.
 
+Create a memcached Deployment if it doesn't exist
+Ensure that the Deployment size is the same as specified by the 'Memcached' CR
+
 Role Tasks
 Be sure to examine the memcached Role tasks/main.yml file, which uses the k8s (Kubernetes) Ansible module to create a Deployment of memcached.
 
@@ -125,6 +128,12 @@ Be sure to examine the memcached Role tasks/main.yml file, which uses the k8s (K
     msg: "Hello World! I live in a namespace called {{ ansible_operator_meta.namespace }}"
   when: toggle_message
 ```
+ we have created the memcached-operator project specifically for watching the Memcached resource with APIVersion 'cache.example.com/v1apha1' and Kind 'Memcached'. Now it's time to define the Operator logic.
+ 
+ For this example the memcached-operator will execute the following reconciliation logic for each 'Memcached' Custom Resource (CR):
+
+
+
 #### Add parameter to the Operator Custom Resource
 Here we will add the toggle_message parameter to the CR. Any parameters under the CR spec are automatically visible in Ansible. This is how you get input from your users. In addition as you may have noticed you can access CR metadata using the ansible_operator_meta parameter in ansible. In the above example that is the name os the namespace.
 
