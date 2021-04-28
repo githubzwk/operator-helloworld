@@ -18,13 +18,12 @@ There are some prerequisites needed to develop and build an operator using Ansib
 
 Add the docker ce repositories. Note: you can also use podman and buildah instead of Docker for those that want a complete and clean divorce.
 
-```$ sudo dnf -y install dnf-plugins-core```
+```$ yum install dnf-plugins-core```
 
-```$ sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo```
 
 ### Install docker-ce
 
-```$ sudo dnf -y install docker-ce docker-ce-cli```
+```$ yum install docker-ce docker-ce-cli```
 
 ```$ sudo systemctl start docker```
 
@@ -35,22 +34,22 @@ Add the docker ce repositories. Note: you can also use podman and buildah instea
 
 #### Install ansible
 
-```$ sudo dnf install -y ansible```
+```$ yum install -y ansible```
 
 The Ansible runner and http runner is used to run a local version of the operator. This is very useful for development and testing.
 
-```$ pip3 install --user ansible-runner```
+```$ pip3 install ansible-runner```
 
-```$ pip3 install --user ansible-runner-http```
+```$ pip3 install ansible-runner-http```
 
 #### Install required python modules
 
-```$ pip3 install --user requests``` 
+```$ pip3 install requests``` 
 
-```$ pip3 install --user openshift```
+```$ pip3 install openshift```
 
 ### Install Make utility
-```$ sudo dnf install -y make```
+```$ yum install make```
 
 ### Install OpenShift Command Line Tools
 The OpenShift command line tools ships with oc and kubectl binaries.
@@ -109,11 +108,6 @@ For this example the memcached-operator will execute the following reconciliatio
 Create a memcached Deployment if it doesn't exist
 Ensure that the Deployment size is the same as specified by the 'Memcached' CR
 
-### Create Custom Resource Definition (CRD)
-The operator-sdk will generate a CRD this will extend the k8s API and allow users to interact with the Operator through the API. Here we will install CRD in the current namespace operator-helloworld.
-
-```$ make install```
-
 
 #### Add Print Task to Operator Role
 The operator framework implements Ansible roles. By default it will create a single role but you can certainly have many roles. Roles are mapped to the API endpoint of the CRD in the watches.yaml file. In this case we will be adding a print statement that will print some debug when a parameter toggle_message is set to true to the role.
@@ -153,6 +147,11 @@ metadata:
 spec:
   toggle_message: true
 ```
+
+### Create Custom Resource Definition (CRD)
+The operator-sdk will generate a CRD this will extend the k8s API and allow users to interact with the Operator through the API. Here we will install CRD in the current namespace operator-helloworld.
+
+```$ make install```
 
 #### Run Operator using ansible-runner
 Now that we have implemented some tasks and our parameter we can run ther Operator locally using the ansible-runner to test it. 
