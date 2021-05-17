@@ -116,9 +116,16 @@ This will ensure our controller is setup to watch the hello resource with APIVer
 
 ```$ operator-sdk create api --group cache --version v1alpha1 --kind Memcached --generate-playbook```
 
+regarfing role and playbook, see slide and learning portal2
 
+
+### Create Custom Resource Definition (CRD)
+The operator-sdk will generate a CRD this will extend the k8s API and allow users to interact with the Operator through the API. Here we will install CRD in the current namespace operator-helloworld.
+
+```$ make install```
 
 After creating a new operator project the directory has numerous generated folders and files. The following table describes a basic rundown of each generated file/directory.
+
 
 
 no:
@@ -137,7 +144,6 @@ no:
 The operator framework implements Ansible roles. By default it will create a single role but you can certainly have many roles. Roles are mapped to the API endpoint of the CRD in the watches.yaml file. In this case we will be adding a print statement that will print some debug when a parameter toggle_message is set to true to the role.
 
 
-
 ```$ vi roles/hello/tasks/main.yml```
 
 ```
@@ -153,6 +159,8 @@ The operator framework implements Ansible roles. By default it will create a sin
 #### Add parameter to the Operator Custom Resource
 Here we will add the toggle_message parameter to the CR. Any parameters under the CR spec are automatically visible in Ansible. This is how you get input from your users.  you can access CR metadata using the ansible_operator_meta parameter in ansible. 
 
+Regarding CR, learning portal3
+
 ```$ vi config/samples/cache_v1_hello.yaml```
 
 ```
@@ -164,32 +172,33 @@ spec:
   toggle_message: true
 ```
 
-### Create Custom Resource Definition (CRD)
-The operator-sdk will generate a CRD this will extend the k8s API and allow users to interact with the Operator through the API. Here we will install CRD in the current namespace operator-helloworld.
+Regarding pass vars, see slide and learning portal4
 
-```$ make install```
+
 
 #### Run Operator using ansible-runner
 Now that we have implemented some tasks and our parameter we can run ther Operator locally using the ansible-runner to test it. 
 
 ```$ ansible-operator run local```
 
+
 #### Create a hello customer resource
 Open another terminal and create the CR. Once the CR is created, the Operator will execute the Ansible role and print our debug message.
 
 Before running the Operator, Kubernetes needs to know about the new custom resource definition the Operator will be watching.
 
-Deploy the Memcached Custom Resource Definition (CRD):
-oc create -f config/crd/bases/cache.example.com_memcacheds.yaml
+Deploy the helloworld Custom Resource Definition (CRD):
+```oc create -f config/samples/cache_v1_hello.yaml```
 
-By running this command, we are creating a new resource type, memcached, on the cluster. We will give our Operator work to do by creating and modifying resources of this type.
+
+By running this command, we are creating a new resource type, helloworld, on the cluster. We will give our Operator work to do by creating and modifying resources of this type.
 
 Ways to Run an Operator
 Once the CRD is registered, there are two ways to run the Operator:
 
 As a Pod inside a Kubernetes cluster
-As a Go program outside the cluster using Operator-SDK. This is great for local development of your Operator.
-For the sake of this tutorial, we will run the Operator as a Go program outside the cluster using Operator-SDK.
+As a ansible program outside the cluster using Operator-SDK. This is great for local development of your Operator.
+For the sake of this tutorial, we will run the Operator as a ansible program outside the cluster using Operator-SDK.
 
 ```$ oc create -f config/samples/cache_v1_hello.yaml```
 
@@ -199,6 +208,10 @@ ok: [localhost] => {
     "msg": "Hello World! I live in a namespace called operator-helloworld"
 }
 ```
+
+
+
+
 
 ## Exercise 2
 In this exercise you will complete the following:
