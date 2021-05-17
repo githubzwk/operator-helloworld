@@ -178,6 +178,7 @@ Regarding pass vars, see slide and learning portal4
 
 #### Run Operator using ansible-runner
 Now that we have implemented some tasks and our parameter we can run ther Operator locally using the ansible-runner to test it. 
+Running make run to run an Operator locally requires a KUBECONFIG value to connect with a cluster.
 
 ```$ ansible-operator run local```
 
@@ -197,8 +198,8 @@ Ways to Run an Operator
 Once the CRD is registered, there are two ways to run the Operator:
 
 As a Pod inside a Kubernetes cluster
-As a ansible program outside the cluster using Operator-SDK. This is great for local development of your Operator.
-For the sake of this tutorial, we will run the Operator as a ansible program outside the cluster using Operator-SDK.
+As a go program outside the cluster using Operator-SDK. This is great for local development of your Operator.
+For the sake of this tutorial, we will run the Operator as a go program outside the cluster using Operator-SDK.
 
 ```$ oc create -f config/samples/cache_v1_hello.yaml```
 
