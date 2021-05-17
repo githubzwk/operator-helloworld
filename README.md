@@ -229,8 +229,10 @@ ok: [localhost] => {
 
 ### Update Ansible role to deploy hellowoworld application
 Now we will learn to use the k8s Ansible module to deploy an application. We will deploy a helloworld application that prints to STDOUT. Notice the route is using the cluster domain we gathered in the previous step. In this step we will create a deployment, service and route for our helloworld application. Append the following tasks to the Ansible role.
+```$ ansible-operator run local```
 
-```$ vi roles/hello/tasks/main.yml```
+
+```$ cp ~/main.yml.backup roles/hello/tasks/main.yml```
 
 ```
 - name: Deploy helloworld service
@@ -277,7 +279,7 @@ Now we will learn to use the k8s Ansible module to deploy an application. We wil
               name: helloworld
           spec:
             containers:
-            - image: openshift/hello-openshift
+            - image: quay.io/jianadazwk/hello-openshif
               imagePullPolicy: Always
               name: helloworld
               readinessProbe:
@@ -322,6 +324,7 @@ Now we will learn to use the k8s Ansible module to deploy an application. We wil
 
 ### Update role permissions
 Since we are creating a service and route we need to add those permissions to the role.
+```$ cp  ~/role.yaml.backup config/rbac/role.yaml```
 
 Add services so we can create them.
 
@@ -386,7 +389,7 @@ helloworld   hello-operator-helloworld.apps.ocp4.keithtenzer.com          hellow
 ```
 
 ```
-$ curl http://hello-operator-helloworld.apps.ocp4.keithtenzer.com
+$ curl http://hello-operator-helloworld.apps.ansible-operator.os.fyre.ibm.com
 Hello OpenShift!
 ```
 
@@ -403,14 +406,14 @@ Go to [Quay.io](https://quay.io/) and create your own account if you don't have 
 
 ### Build Operator image and push to quay.io
 
-```$ sudo make docker-build docker-push IMG=quay.io/ktenzer/operator-helloworld:latest```
+```$ sudo make docker-build docker-push IMG=quay.io/jianadazwk/operator-helloworld:latest```
 
 Make the operator-helloworld image in your quay.io account public. Log into quya.io, click on the image. Under settings (on the left) there is option to make the image public.
 
 ### Deploy Operator to OpenShift Cluster
 By default the operator will be deployed to a project called operator-helloworld-system. You can change this by editing the ```config/default/kustomization.yaml``` file.
 
-```$ make deploy IMG=quay.io/ktenzer/operator-helloworld:latest```
+```$ make deploy IMG=quay.io/jianadazwk/operator-helloworld:latest```
 
 Check Operator Deployment
 
