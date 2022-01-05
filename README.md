@@ -1,3 +1,7 @@
+
+[![](https://api.gh-polls.com/poll/01FRMK6FRWM27VYK7K7FYZ2NR8/react)](https://api.gh-polls.com/poll/01FRMK6FRWM27VYK7K7FYZ2NR8/react/vote)
+[![](https://api.gh-polls.com/poll/01FRMK6FRWM27VYK7K7FYZ2NR8/vue)](https://api.gh-polls.com/poll/01FRMK6FRWM27VYK7K7FYZ2NR8/vue/vote)
+
 # Operator Framework Ansible Training
 This training will show you how to setup a development environment and deploy your first Operator written in Ansible. Upon completing this training you will learn the following:
 * Setup Ansible Operator Development Environment
